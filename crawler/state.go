@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-// 检测js访问状态码
+// 檢測js訪問狀態碼
 func JsState(u string, i int, sou string) {
 
 	defer func() {
@@ -29,13 +29,13 @@ func JsState(u string, i int, sou string) {
 	if cmd.M == 3 {
 		for _, v := range config.Risks {
 			if strings.Contains(u, v) {
-				result.ResultJs[i] = mode.Link{Url: u, Status: "疑似危险路由"}
+				result.ResultJs[i] = mode.Link{Url: u, Status: "疑似危險路由"}
 				return
 			}
 		}
 	}
 
-	//加载yaml配置(proxy)
+	//載入yaml配置(proxy)
 	//配置代理
 	var redirect string
 	ur, err2 := url.Parse(u)
@@ -50,10 +50,10 @@ func JsState(u string, i int, sou string) {
 	if cmd.C != "" {
 		request.Header.Set("Cookie", cmd.C)
 	}
-	//增加header选项
+	//增加header選項
 	request.Header.Set("User-Agent", util.GetUserAgent())
 	request.Header.Set("Accept", "*/*")
-	//加载yaml配置
+	//載入yaml配置
 	if cmd.I {
 		util.SetHeadersConfig(&request.Header)
 	}
@@ -77,7 +77,7 @@ func JsState(u string, i int, sou string) {
 	//		return nil
 	//	},
 	//}
-	//处理返回结果
+	//處理返回結果
 	response, err := client.Do(request)
 	if err != nil {
 		if strings.Contains(err.Error(), "Client.Timeout") && cmd.S == "" {
@@ -111,7 +111,7 @@ func JsState(u string, i int, sou string) {
 	}
 }
 
-// 检测url访问状态码
+// 檢測url訪問狀態碼
 func UrlState(u string, i int) {
 	defer func() {
 		config.Wg.Done()
@@ -125,7 +125,7 @@ func UrlState(u string, i int) {
 	if cmd.M == 3 {
 		for _, v := range config.Risks {
 			if strings.Contains(u, v) {
-				result.ResultUrl[i] = mode.Link{Url: u, Status: "0", Size: "0", Title: "疑似危险路由,已跳过验证"}
+				result.ResultUrl[i] = mode.Link{Url: u, Status: "0", Size: "0", Title: "疑似危險路由,已跳過驗證"}
 				return
 			}
 		}
@@ -145,11 +145,11 @@ func UrlState(u string, i int) {
 	if cmd.C != "" {
 		request.Header.Set("Cookie", cmd.C)
 	}
-	//增加header选项
+	//增加header選項
 	request.Header.Set("User-Agent", util.GetUserAgent())
 	request.Header.Set("Accept", "*/*")
 
-	//加载yaml配置
+	//載入yaml配置
 	if cmd.I {
 		util.SetHeadersConfig(&request.Header)
 	}
@@ -173,7 +173,7 @@ func UrlState(u string, i int) {
 	//		return nil
 	//	},
 	//}
-	//处理返回结果
+	//處理返回結果
 	response, err := client.Do(request)
 	if err != nil {
 		if strings.Contains(err.Error(), "Client.Timeout") && cmd.S == "all" {

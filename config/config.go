@@ -56,7 +56,7 @@ var (
 	Email  = []string{"['\"]([\\w!#$%&'*+=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?)['\"]"}
 	IDcard = []string{"['\"]((\\d{8}(0\\d|10|11|12)([0-2]\\d|30|31)\\d{3}$)|(\\d{6}(18|19|20)\\d{2}(0[1-9]|10|11|12)([0-2]\\d|30|31)\\d{3}(\\d|X|x)))['\"]"}
 	Jwt    = []string{"['\"](ey[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9._-]{10,}|ey[A-Za-z0-9_\\/+-]{10,}\\.[A-Za-z0-9._\\/+-]{10,})['\"]"}
-	Other  = []string{"(access.{0,1}key|access.{0,1}Key|access.{0,1}Id|access.{0,1}id|.{0,5}密码|.{0,5}账号|默认.{0,5}|加密|解密|password:.{0,10}|username:.{0,10})"}
+	Other  = []string{"(access.{0,1}key|access.{0,1}Key|access.{0,1}Id|access.{0,1}id|.{0,5}密碼|.{0,5}賬號|預設.{0,5}|加密|解密|password:.{0,10}|username:.{0,10})"}
 )
 
 var (
@@ -73,7 +73,7 @@ var (
 	Urlch = make(chan int, 50/10*7)
 )
 
-// 读取配置文件
+// 讀取配置檔案
 func GetConfig(path string) {
 	if f, err := os.Open(path); err != nil {
 		if strings.Contains(err.Error(), "The system cannot find the file specified") || strings.Contains(err.Error(), "no such file or directory") {
@@ -96,10 +96,10 @@ func GetConfig(path string) {
 			if err2 != nil {
 				fmt.Println(err)
 			} else {
-				fmt.Println("未找到配置文件,已在当面目录下创建配置文件: config.yaml")
+				fmt.Println("未找到配置檔案,已在當前目錄下建立配置檔案: config.yaml")
 			}
 		} else {
-			fmt.Println("配置文件错误,请尝试重新生成配置文件")
+			fmt.Println("配置檔案錯誤,請嘗試重新生成配置檔案")
 			fmt.Println(err)
 		}
 		os.Exit(1)

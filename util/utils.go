@@ -18,17 +18,17 @@ import (
 	"time"
 )
 
-// MergeArray 合并数组
+// MergeArray 合併陣列
 func MergeArray(dest []mode.Link, src []mode.Link) (result []mode.Link) {
 	result = make([]mode.Link, len(dest)+len(src))
-	//将第一个数组传入result
+	//將第一個陣列傳入result
 	copy(result, dest)
-	//将第二个数组接在尾部,也就是 len(dest):
+	//將第二個陣列接在尾部,也就是 len(dest):
 	copy(result[len(dest):], src)
 	return
 }
 
-// 对结果进行状态码排序
+// 對結果進行狀態碼排序
 func SelectSort(arr []mode.Link) []mode.Link {
 	length := len(arr)
 	var sort []int
@@ -43,23 +43,23 @@ func SelectSort(arr []mode.Link) []mode.Link {
 	if length <= 1 {
 		return arr
 	} else {
-		for i := 0; i < length-1; i++ { //只剩一个元素不需要索引
-			min := i                          //标记索引
-			for j := i + 1; j < length; j++ { //每次选出一个极小值
+		for i := 0; i < length-1; i++ { //只剩一個元素不需要索引
+			min := i                          //標記索引
+			for j := i + 1; j < length; j++ { //每次選出一個極小值
 				if sort[min] > sort[j] {
-					min = j //保存极小值的索引
+					min = j //儲存極小值的索引
 				}
 			}
 			if i != min {
-				sort[i], sort[min] = sort[min], sort[i] //数据交换
-				arr[i], arr[min] = arr[min], arr[i]     //数据交换
+				sort[i], sort[min] = sort[min], sort[i] //資料交換
+				arr[i], arr[min] = arr[min], arr[i]     //資料交換
 			}
 		}
 		return arr
 	}
 }
 
-// 对结果进行URL排序
+// 對結果進行URL排序
 func UrlDispose(arr []mode.Link, url, host string) ([]mode.Link, []mode.Link) {
 	var urls []mode.Link
 	var urlts []mode.Link
@@ -83,7 +83,7 @@ func UrlDispose(arr []mode.Link, url, host string) ([]mode.Link, []mode.Link) {
 	return RemoveRepeatElement(urls), RemoveRepeatElement(other)
 }
 
-// 处理Headers配置
+// 處理Headers配置
 func SetHeadersConfig(header *http.Header) *http.Header {
 	for k, v := range config.Conf.Headers {
 		header.Set(k, v)
@@ -91,13 +91,13 @@ func SetHeadersConfig(header *http.Header) *http.Header {
 	return header
 }
 
-// 设置proxy配置
+// 設定proxy配置
 func SetProxyConfig(tr *http.Transport) *http.Transport {
 	if len(config.Conf.Proxy) > 0 {
 		tr.DisableKeepAlives = true
 		proxyUrl, parseErr := url.Parse(config.Conf.Proxy)
 		if parseErr != nil {
-			fmt.Println("代理地址错误: \n" + parseErr.Error())
+			fmt.Println("代理地址錯誤: \n" + parseErr.Error())
 			os.Exit(1)
 		}
 		tr.Proxy = http.ProxyURL(proxyUrl)
@@ -105,7 +105,7 @@ func SetProxyConfig(tr *http.Transport) *http.Transport {
 	return tr
 }
 
-// 判断http协议
+// 判斷http協議
 func GetProtocol(domain string) string {
 	if strings.HasPrefix(domain, "http") {
 		return domain
@@ -126,7 +126,7 @@ func GetProtocol(domain string) string {
 	return ""
 }
 
-// 提取顶级域名
+// 提取頂級域名
 func GetHost(u string) string {
 	re := regexp.MustCompile("([a-z0-9\\-]+\\.)*([a-z0-9\\-]+\\.[a-z0-9\\-]+)(:[0-9]+)?")
 	var host string
@@ -161,15 +161,15 @@ func GetHost(u string) string {
 	return host
 }
 
-// 去重+去除错误url
+// 去重+去除錯誤url
 func RemoveRepeatElement(list []mode.Link) []mode.Link {
-	// 创建一个临时map用来存储数组元素
+	// 建立一個臨時map用來儲存陣列元素
 	temp := make(map[string]bool)
 	var list2 []mode.Link
 	index := 0
 	for _, v := range list {
 
-		//处理-d参数
+		//處理-d引數
 		if cmd.D != "" {
 			v.Url = domainNameFilter(v.Url)
 		}
@@ -177,7 +177,7 @@ func RemoveRepeatElement(list []mode.Link) []mode.Link {
 			re := regexp.MustCompile("://([a-z0-9\\-]+\\.)*([a-z0-9\\-]+\\.[a-z0-9\\-]+)(:[0-9]+)?")
 			hosts := re.FindAllString(v.Url, 1)
 			if len(hosts) != 0 {
-				// 遍历数组元素,判断此元素是否已经存在map中
+				// 遍歷陣列元素,判斷此元素是否已經存在map中
 				_, ok := temp[v.Url]
 				if !ok {
 					v.Url = strings.Replace(v.Url, "/./", "/", -1)
@@ -192,7 +192,7 @@ func RemoveRepeatElement(list []mode.Link) []mode.Link {
 	return list2
 }
 
-// 打印Fuzz进度
+// 列印Fuzz進度
 func PrintFuzz() {
 	config.Mux.Lock()
 	fmt.Printf("\rFuzz %.0f%%", float64(config.Progress+1)/float64(config.FuzzNum+1)*100)
@@ -200,7 +200,7 @@ func PrintFuzz() {
 	config.Mux.Unlock()
 }
 
-// 处理-d
+// 處理-d
 func domainNameFilter(url string) string {
 	re := regexp.MustCompile("://([a-z0-9\\-]+\\.)*([a-z0-9\\-]+\\.[a-z0-9\\-]+)(:[0-9]+)?")
 	hosts := re.FindAllString(url, 1)
@@ -212,9 +212,9 @@ func domainNameFilter(url string) string {
 	return url
 }
 
-// 文件是否存在
+// 檔案是否存在
 func Exists(path string) bool {
-	_, err := os.Stat(path) //os.Stat获取文件信息
+	_, err := os.Stat(path) //os.Stat獲取檔案資訊
 	if err != nil {
 		if os.IsExist(err) {
 			return true
@@ -224,7 +224,7 @@ func Exists(path string) bool {
 	return true
 }
 
-// 数组去重
+// 陣列去重
 func UniqueArr(arr []string) []string {
 	newArr := make([]string, 0)
 	tempArr := make(map[string]bool, len(newArr))
@@ -249,7 +249,7 @@ func GetDomains(lis []mode.Link) []string {
 	return UniqueArr(urls)
 }
 
-// 提取fuzz的目录结构
+// 提取fuzz的目錄結構
 func PathExtract(urls []string) ([]string, []string) {
 	var catalogues []string
 	var targets []string
@@ -317,10 +317,10 @@ func PathExtract(urls []string) ([]string, []string) {
 	return path, targets
 }
 
-// 去除状态码非404的404链接
+// 去除狀態碼非404的404連結
 func Del404(urls []mode.Link) []mode.Link {
 	is := make(map[int]int)
-	//根据长度分别存放
+	//根據長度分別存放
 	for _, v := range urls {
 		arr, ok := is[len(v.Size)]
 		if ok {
@@ -330,7 +330,7 @@ func Del404(urls []mode.Link) []mode.Link {
 		}
 	}
 	res := []mode.Link{}
-	//如果某个长度的数量大于全部的3分之2,那么就判定它是404页面
+	//如果某個長度的數量大於全部的3分之2,那麼就判定它是404頁面
 	for i, v := range is {
 		if v > len(urls)/2 {
 			for _, vv := range urls {
@@ -394,13 +394,13 @@ func GetUpdate() {
 	}
 	resp, err := client.Get(url)
 	if err != nil {
-		cmd.XUpdate = "更新检测失败"
+		cmd.XUpdate = "更新檢測失敗"
 		return
 	}
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		cmd.XUpdate = "更新检测失败"
+		cmd.XUpdate = "更新檢測失敗"
 		return
 	}
 	var release struct {
@@ -408,11 +408,11 @@ func GetUpdate() {
 	}
 	err = json.Unmarshal(body, &release)
 	if err != nil {
-		cmd.XUpdate = "更新检测失败"
+		cmd.XUpdate = "更新檢測失敗"
 		return
 	}
 	if release.TagName == "" {
-		cmd.XUpdate = "更新检测失败"
+		cmd.XUpdate = "更新檢測失敗"
 		return
 	}
 	if cmd.Update != release.TagName {
