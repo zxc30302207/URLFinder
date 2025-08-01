@@ -86,9 +86,9 @@ func outHtmlDomainString(domain string) string {
 	return ht
 }
 
-// 导出csv
+// 匯出csv
 func OutFileCsv(out string) {
-	//获取域名
+	//獲取域名
 	var host string
 	re := regexp.MustCompile("([a-z0-9\\-]+\\.)*([a-z0-9\\-]+\\.[a-z0-9\\-]+)(:[0-9]+)?")
 	hosts := re.FindAllString(cmd.U, 1)
@@ -98,7 +98,7 @@ func OutFileCsv(out string) {
 		host = hosts[0]
 	}
 
-	//抓取的域名优先排序
+	//抓取的域名優先排序
 	if cmd.S != "" {
 		ResultUrl = util.SelectSort(ResultUrl)
 		ResultJs = util.SelectSort(ResultJs)
@@ -110,17 +110,17 @@ func OutFileCsv(out string) {
 	if out != "" {
 		fileName = out
 	} else {
-		//输出到文件
+		//輸出到檔案
 		if strings.Contains(host, ":") {
 			host = strings.Replace(host, ":", "：", -1)
 		}
-		//在当前文件夹创建文件夹
+		//在當前資料夾建立資料夾
 		err := os.MkdirAll(cmd.O+"/"+host, 0755)
 		if err != nil {
-			fmt.Printf(cmd.O+"/"+host+" 目录创建失败 ：%s", err)
+			fmt.Printf(cmd.O+"/"+host+" 目錄建立失敗 ：%s", err)
 			return
 		}
-		//多相同url处理
+		//多相同url處理
 		fileName = cmd.O + "/" + host + "/" + host + ".csv"
 		for fileNum := 1; util.Exists(fileName); fileNum++ {
 			fileName = cmd.O + "/" + host + "/" + host + "(" + strconv.Itoa(fileNum) + ").csv"
@@ -129,7 +129,7 @@ func OutFileCsv(out string) {
 	file, err := os.OpenFile(fileName, os.O_CREATE|os.O_WRONLY, 0644)
 
 	resultWriter := csv.NewWriter(file)
-	// 写数据到文件
+	// 寫資料到檔案
 	if err != nil {
 		fmt.Println("open file error:", err)
 		return
@@ -246,11 +246,11 @@ func OutFileCsv(out string) {
 	return
 }
 
-// 导出json
+// 匯出json
 func OutFileJson(out string) {
 	jsons := make(map[string]interface{})
 	var info map[string][]map[string]string
-	//获取域名
+	//獲取域名
 	var host string
 	re := regexp.MustCompile("([a-z0-9\\-]+\\.)*([a-z0-9\\-]+\\.[a-z0-9\\-]+)(:[0-9]+)?")
 	hosts := re.FindAllString(cmd.U, 1)
@@ -259,7 +259,7 @@ func OutFileJson(out string) {
 	} else {
 		host = hosts[0]
 	}
-	//抓取的域名优先排序
+	//抓取的域名優先排序
 	if cmd.S != "" {
 		ResultUrl = util.SelectSort(ResultUrl)
 		ResultJs = util.SelectSort(ResultJs)
@@ -299,17 +299,17 @@ func OutFileJson(out string) {
 	if out != "" {
 		fileName = out
 	} else {
-		//输出到文件
+		//輸出到檔案
 		if strings.Contains(host, ":") {
 			host = strings.Replace(host, ":", "：", -1)
 		}
-		//在当前文件夹创建文件夹
+		//在當前資料夾建立資料夾
 		err := os.MkdirAll(cmd.O+"/"+host, 0755)
 		if err != nil {
-			fmt.Printf(cmd.O+"/"+host+" 目录创建失败 ：%s", err)
+			fmt.Printf(cmd.O+"/"+host+" 目錄建立失敗 ：%s", err)
 			return
 		}
-		//多相同url处理
+		//多相同url處理
 		fileName = cmd.O + "/" + host + "/" + host + ".json"
 		for fileNum := 1; util.Exists(fileName); fileNum++ {
 			fileName = cmd.O + "/" + host + "/" + host + "(" + strconv.Itoa(fileNum) + ").json"
@@ -317,7 +317,7 @@ func OutFileJson(out string) {
 	}
 	file, err := os.OpenFile(fileName, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		fmt.Printf("创建失败：%s", err)
+		fmt.Printf("建立失敗：%s", err)
 		return
 	}
 	if cmd.D == "" {
@@ -343,25 +343,25 @@ func OutFileJson(out string) {
 
 	data, err := json.Marshal(jsons)
 	if err != nil {
-		fmt.Printf("json化失败：%s", err)
+		fmt.Printf("json化失敗：%s", err)
 		return
 	}
 	buf := bufio.NewWriter(file)
-	// 字节写入
+	// 位元組寫入
 	buf.Write(data)
-	// 将缓冲中的数据写入
+	// 將緩衝中的資料寫入
 	err = buf.Flush()
 	if err != nil {
-		fmt.Println("json保存失败:", err)
+		fmt.Println("json儲存失敗:", err)
 	}
 	fmt.Println(strconv.Itoa(len(ResultJsHost)+len(ResultJsOther))+"JS + "+strconv.Itoa(len(ResultUrlHost)+len(ResultUrlOther))+"URL --> ", file.Name())
 	return
 }
 
-// 导出html
+// 匯出html
 func OutFileHtml(out string) {
 	htmlTemp := html
-	//获取域名
+	//獲取域名
 	var host string
 	re := regexp.MustCompile("([a-z0-9\\-]+\\.)*([a-z0-9\\-]+\\.[a-z0-9\\-]+)(:[0-9]+)?")
 	hosts := re.FindAllString(cmd.U, 1)
@@ -371,7 +371,7 @@ func OutFileHtml(out string) {
 		host = hosts[0]
 	}
 
-	//抓取的域名优先排序
+	//抓取的域名優先排序
 	if cmd.S != "" {
 		ResultUrl = util.SelectSort(ResultUrl)
 		ResultJs = util.SelectSort(ResultJs)
@@ -384,17 +384,17 @@ func OutFileHtml(out string) {
 	if out != "" {
 		fileName = out
 	} else {
-		//输出到文件
+		//輸出到檔案
 		if strings.Contains(host, ":") {
 			host = strings.Replace(host, ":", "：", -1)
 		}
-		//在当前文件夹创建文件夹
+		//在當前資料夾建立資料夾
 		err := os.MkdirAll(cmd.O+"/"+host, 0755)
 		if err != nil {
-			fmt.Printf(cmd.O+"/"+host+" 目录创建失败 ：%s", err)
+			fmt.Printf(cmd.O+"/"+host+" 目錄建立失敗 ：%s", err)
 			return
 		}
-		//多相同url处理
+		//多相同url處理
 		fileName = cmd.O + "/" + host + "/" + host + ".html"
 		for fileNum := 1; util.Exists(fileName); fileNum++ {
 			fileName = cmd.O + "/" + host + "/" + host + "(" + strconv.Itoa(fileNum) + ").html"
@@ -402,8 +402,8 @@ func OutFileHtml(out string) {
 	}
 	file, err := os.OpenFile(fileName, os.O_CREATE|os.O_WRONLY, 0644)
 
-	file.WriteString("\xEF\xBB\xBF") // 写入UTF-8 BOM,防止中文乱码
-	// 写数据到文件
+	file.WriteString("\xEF\xBB\xBF") // 寫入UTF-8 BOM,防止中文亂碼
+	// 寫資料到檔案
 	if err != nil {
 		fmt.Println("open file error:", err)
 		return
@@ -484,14 +484,14 @@ func OutFileHtml(out string) {
 	}
 	htmlTemp = strings.Replace(htmlTemp, "{Info}", Infostr, -1)
 	writer.WriteString(htmlTemp)
-	writer.Flush() //内容是先写到缓存对,所以需要调用flush将缓存对数据真正写到文件中
+	writer.Flush() //內容是先寫到快取對,所以需要呼叫flush將快取對資料真正寫到檔案中
 	fmt.Println(strconv.Itoa(len(ResultJsHost)+len(ResultJsOther))+"JS + "+strconv.Itoa(len(ResultUrlHost)+len(ResultUrlOther))+"URL --> ", file.Name())
 	return
 }
 
-// 打印
+// 列印
 func Print() {
-	//获取域名
+	//獲取域名
 	var host string
 	re := regexp.MustCompile("([a-z0-9\\-]+\\.)*([a-z0-9\\-]+\\.[a-z0-9\\-]+)(:[0-9]+)?")
 	hosts := re.FindAllString(cmd.U, 1)
@@ -500,13 +500,13 @@ func Print() {
 	} else {
 		host = hosts[0]
 	}
-	//打印JS
+	//列印JS
 	if cmd.S != "" {
 		ResultJs = util.SelectSort(ResultJs)
 		ResultUrl = util.SelectSort(ResultUrl)
 
 	}
-	//抓取的域名优先排序
+	//抓取的域名優先排序
 	ResultJsHost, ResultJsOther := util.UrlDispose(ResultJs, host, util.GetHost(cmd.U))
 	ResultUrlHost, ResultUrlOther := util.UrlDispose(ResultUrl, host, util.GetHost(cmd.U))
 	Domains = util.GetDomains(util.MergeArray(ResultJs, ResultUrl))
@@ -575,7 +575,7 @@ func Print() {
 			u.Url = urlx
 		}
 		if cmd.S != "" && len(u.Title) != 0 {
-			if u.Status == "疑似危险路由" {
+			if u.Status == "疑似危險路由" {
 				fmt.Printf(color.LightBlue.Sprintf("%-"+ulen+"s", u.Url) + color.LightGreen.Sprintf(" [ Status: %s, Source: %s ]\n", u.Status, u.Source))
 			} else if strings.HasPrefix(u.Status, "2") {
 				fmt.Printf(color.LightBlue.Sprintf("%-"+ulen+"s", u.Url) + color.LightGreen.Sprintf(" [ Status: %s, Size: %s, Title: %s, Source: %s ]\n", u.Status, u.Size, u.Title, u.Source))
@@ -605,7 +605,7 @@ func Print() {
 			u.Url = urlx
 		}
 		if cmd.S != "" && len(u.Title) != 0 {
-			if u.Status == "疑似危险路由" {
+			if u.Status == "疑似危險路由" {
 				fmt.Printf(color.LightBlue.Sprintf("%-"+ulen+"s", u.Url) + color.LightGreen.Sprintf(" [ Status: %s, Source: %s ]\n", u.Status, u.Source))
 			} else if strings.HasPrefix(u.Status, "2") {
 				fmt.Printf(color.LightBlue.Sprintf("%-"+ulen+"s", u.Url) + color.LightGreen.Sprintf(" [ Status: %s, Size: %s, Title: %s, Source: %s ]\n", u.Status, u.Size, u.Title, u.Source))
@@ -632,7 +632,7 @@ func Print() {
 		Fuzzs = util.SelectSort(Fuzzs)
 		for _, u := range Fuzzs {
 			if len(u.Title) != 0 {
-				if u.Status == "疑似危险路由" {
+				if u.Status == "疑似危險路由" {
 					fmt.Printf(color.LightBlue.Sprintf("%-"+ulen+"s", u.Url) + color.LightGreen.Sprintf(" [ Status: %s, Source: %s ]\n", u.Status, u.Source))
 				} else if strings.HasPrefix(u.Status, "2") {
 					fmt.Printf(color.LightBlue.Sprintf("%-"+ulen+"s", u.Url) + color.LightGreen.Sprintf(" [ Status: %s, Size: %s, Title: %s, Source: %s ]\n", u.Status, u.Size, u.Title, u.Source))

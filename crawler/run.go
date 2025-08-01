@@ -32,12 +32,12 @@ func load() {
 		os.Exit(0)
 	}
 	if cmd.U == "" && cmd.F == "" && cmd.FF == "" {
-		fmt.Println("至少使用 -u -f -ff 指定一个url")
+		fmt.Println("至少使用 -u -f -ff 指定一個url")
 		os.Exit(0)
 	}
 	u, ok := url.Parse(cmd.U)
 	if cmd.U != "" && ok != nil {
-		fmt.Println("url格式错误,请填写正确url")
+		fmt.Println("url格式錯誤,請填寫正確url")
 		os.Exit(0)
 	}
 	cmd.U = u.String()
@@ -66,7 +66,7 @@ func load() {
 		tr.DisableKeepAlives = true
 		proxyUrl, parseErr := url.Parse(cmd.X)
 		if parseErr != nil {
-			fmt.Println("代理地址错误: \n" + parseErr.Error())
+			fmt.Println("代理地址錯誤: \n" + parseErr.Error())
 			os.Exit(1)
 		}
 		tr.Proxy = http.ProxyURL(proxyUrl)
@@ -97,16 +97,16 @@ func load() {
 func Run() {
 	load()
 	if cmd.F != "" {
-		// 创建句柄
+		// 建立控制代碼
 		fi, err := os.Open(cmd.F)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(0)
 		}
-		r := bufio.NewReader(fi) // 创建 Reader
+		r := bufio.NewReader(fi) // 建立 Reader
 		for {
 			lineBytes, err := r.ReadBytes('\n')
-			//去掉字符串首尾空白字符,返回字符串
+			//去掉字串首尾空白字元,返回字串
 			if len(lineBytes) > 5 {
 				line := util.GetProtocol(strings.TrimSpace(string(lineBytes)))
 				cmd.U = line
@@ -123,17 +123,17 @@ func Run() {
 		return
 	}
 	if cmd.FF != "" {
-		// 创建句柄
+		// 建立控制代碼
 		fi, err := os.Open(cmd.FF)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(0)
 		}
-		r := bufio.NewReader(fi) // 创建 Reader
+		r := bufio.NewReader(fi) // 建立 Reader
 		Initialization()
 		for {
 			lineBytes, err := r.ReadBytes('\n')
-			//去掉字符串首尾空白字符,返回字符串
+			//去掉字串首尾空白字元,返回字串
 			if len(lineBytes) > 5 {
 				line := util.GetProtocol(strings.TrimSpace(string(lineBytes)))
 				if cmd.U == "" {
@@ -173,13 +173,13 @@ func ValidateFF() {
 		fmt.Printf("Start %d Validate...\n", len(result.ResultUrl)+len(result.ResultJs))
 		fmt.Printf("\r                    ")
 		JsFuzz()
-		//验证JS状态
+		//驗證JS狀態
 		for i, s := range result.ResultJs {
 			config.Wg.Add(1)
 			config.Jsch <- 1
 			go JsState(s.Url, i, result.ResultJs[i].Source)
 		}
-		//验证URL状态
+		//驗證URL狀態
 		for i, s := range result.ResultUrl {
 			config.Wg.Add(1)
 			config.Urlch <- 1
@@ -213,13 +213,13 @@ func start(u string) {
 		fmt.Printf("Start %d Validate...\n", len(result.ResultUrl)+len(result.ResultJs))
 		fmt.Printf("\r                    ")
 		JsFuzz()
-		//验证JS状态
+		//驗證JS狀態
 		for i, s := range result.ResultJs {
 			config.Wg.Add(1)
 			config.Jsch <- 1
 			go JsState(s.Url, i, result.ResultJs[i].Source)
 		}
-		//验证URL状态
+		//驗證URL狀態
 		for i, s := range result.ResultUrl {
 			config.Wg.Add(1)
 			config.Urlch <- 1
@@ -241,10 +241,10 @@ func start(u string) {
 
 func Res() {
 	if len(result.ResultJs) == 0 && len(result.ResultUrl) == 0 {
-		fmt.Println("未获取到数据")
+		fmt.Println("未獲取到資料")
 		return
 	}
-	//打印还是输出
+	//列印還是輸出
 	if len(cmd.O) > 0 {
 		if strings.HasSuffix(cmd.O, ".json") {
 			result.OutFileJson(cmd.O)
